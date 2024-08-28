@@ -2,7 +2,7 @@
 
 ## Purpose
 
-This is an implementation of [yiotro's antiyoy](https://github.com/yiotro/Antiyoy), which focuses not on providing a *playable game*, but being a merely *implementation* of the game, containing its logic and all the building blocks for creating a GUI for the game.
+This is an implementation of [yiotro's antiyoy](https://github.com/yiotro/Antiyoy), which focuses not on providing a *playable game*, but being a merely *implementation* of the game, containing its logic and all the building blocks to it.
 
 ## Basic usage
 
@@ -16,3 +16,11 @@ view_map(game.map)
 ```
 
 This will create a game and launch the map viewer.
+
+## Implementation status
+
+The project is being worked on and is focused on recreating antiyoy's core.
+
+- [x] Basic Game and Map objects, describing the world.
+- [x] Map viewer (using curses)
+- [ ] Random map generation
