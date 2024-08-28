@@ -119,7 +119,7 @@ class RandomMap(Map):
         self.load(self.generate_hexes(width, height, self.seed))
 
     def generate_hexes(self, width, height, seed):
-        threshold = -5
+        threshold = -0.1
 
         hexes = []
 
