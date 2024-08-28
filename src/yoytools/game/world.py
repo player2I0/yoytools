@@ -119,11 +119,11 @@ class RandomMap(Map):
         self.load(self.generate_hexes(width, height, self.seed))
 
     def generate_hexes(self, width, height, seed):
-        threshold = -0.1
+        threshold = 0.48
 
         hexes = []
 
-        noise = perlin.PerlinNoiseFactory(2, tile=(0, 0))
+        noise = perlin.PerlinNoiseFactory(2, tile=(0, 0), unbias=True, octaves=6)
 
         for x in range(width):
             for y in range(height):
@@ -131,8 +131,8 @@ class RandomMap(Map):
 
                 y_sub = 0
 
-                #if x % 2 != 0:
-                #    y_sub = (1/height) / 2
+                if x % 2 != 0:
+                    y_sub = (1/height) / 2
 
                 if noise(x/width, y/height - y_sub) >= threshold:
                     hexes.append(Hex(x, y, self))
