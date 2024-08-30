@@ -22,4 +22,14 @@ This will create a game and launch the map viewer.
 The project is being worked on and is focused on recreating antiyoy's core.
 
 - [ ] Game
+  - [ ] Adding players to the game
   - [ ] Starting the game
+  - [ ] Turns
+
+- [ ] World
+  - [x] Map
+  - [x] Hexagons
+  - [ ] Units
+
+- [ ] Emulator
+  - [x] Basic map viewer
