@@ -21,10 +21,5 @@ This will create a game and launch the map viewer.
 
 The project is being worked on and is focused on recreating antiyoy's core.
 
-- [x] Basic Game and Map objects, describing the world.
-- [x] Map viewer (using curses)
-- [ ] Adding players to the game
-- [ ] Units
-- [ ] Random map generation
-- [ ] A way to play the game (*emulator*)
-- [ ] Starting the game
+- [ ] Game
+  - [ ] Starting the game
