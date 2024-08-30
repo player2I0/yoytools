@@ -33,3 +33,4 @@ The project is being worked on and is focused on recreating antiyoy's core.
 
 - [ ] Emulator
   - [x] Basic map viewer
+  - [ ] Gameplay
