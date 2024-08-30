@@ -3,6 +3,8 @@ import random
 import curses
 import time
 
+from yoytools.game.world import units
+
 class Map:
     def __init__(self, width, height, data = None) -> None:
         self.hexes = {}
@@ -79,8 +81,15 @@ class Hex:
         self.owner = owner
         self.unit = unit
 
+        if unit is not None:
+            self.set_unit(unit)
+
         if data is not None:
             self.load(data)
+    
+    def set_unit(self, unit: units.Unit):
+        self.unit = unit
+        unit.hex = self
 
     def load(self, data):
         pass
