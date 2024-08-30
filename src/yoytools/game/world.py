@@ -119,7 +119,7 @@ class RandomMap(Map):
         self.load(self.generate_hexes(width, height, self.seed))
 
     def generate_hexes(self, width, height, seed):
-        threshold = 0.48
+        threshold = -55
 
         hexes = []
 
@@ -180,6 +180,7 @@ def view_map(world: Map):
 
         stdscr.addstr('Map viewer. WASD to navigate, q to exit')
 
+        '''
         for hex_coords in world.hexes:
             #viewport.addstr(5, 5, 'n')
             hex = world.hexes[hex_coords]
@@ -213,7 +214,82 @@ def view_map(world: Map):
                     else:
                         viewport.addstr(hex.y * 2 + 1, hex.x * 4, f'/  \\')
                         viewport.addstr(hex.y * 2 + 2, hex.x * 4, '\\__/')
-        
+        '''
+
+        for hex_coords in world.hexes:
+            #viewport.addstr(5, 5, 'n')
+            hex = world.hexes[hex_coords]
+
+            if hex.x % 2 == 0:
+                if (hex.x, hex.y - 1) not in world:
+                    viewport.addstr(hex.y * 2 + 1, hex.x * 3 + 1, '__')
+                    viewport.addstr(hex.y * 2 + 2, hex.x * 3, f'/  \\')
+                    viewport.addstr(hex.y * 2 + 3, hex.x * 3, '\\__/')
+                else:
+                    #viewport.addstr(hex.y * 3 + 0, hex.x * 3 + 1, '__')
+                    viewport.addstr(hex.y * 2 + 2, hex.x * 3, f'/  \\')
+                    viewport.addstr(hex.y * 2 + 3, hex.x * 3, '\\__/')
+
+                '''
+                if (hex.x, hex.y - 1) not in world:
+                    if (hex.x - 1, hex.y) not in world:
+                        viewport.addstr(hex.y * 3 + 1, hex.x * 3, ' __ ')
+                        viewport.addstr(hex.y * 3 + 2, hex.x * 3, f'/  \\')
+                        viewport.addstr(hex.y * 3 + 3, hex.x * 3, '\\__/')
+                    else:
+                        viewport.addstr(hex.y * 3 + 1, hex.x * 3 + 1, '__ ')
+                        viewport.addstr(hex.y * 3 + 2, hex.x * 3 + 1, f'  \\')
+
+                        if (hex.x - 1, hex.y + 1) not in world:
+                            viewport.addstr(hex.y * 3 + 3, hex.x * 3 + 0, '\\__/')
+                        else:
+                            viewport.addstr(hex.y * 3 + 3, hex.x * 3 + 1, '__/')
+                else:
+                    if hex.y <= 1:
+                        if (hex.x - 1, hex.y) not in world:
+                            viewport.addstr(hex.y * 3 + 1, hex.x * 4, f'/  \\')
+                            viewport.addstr(hex.y * 3 + 2, hex.x * 4, '\\__/')
+                        else:
+                            viewport.addstr(hex.y * 3 + 1, hex.x * 4 + 1, f'  \\')
+                            viewport.addstr(hex.y * 3 + 2, hex.x * 4 + 1, '__/')
+                    else:
+                        if (hex.x - 1, hex.y) not in world:
+                            viewport.addstr(hex.y * 2 + 2, hex.x * 4, f'/  \\')
+                            viewport.addstr(hex.y * 2 + 3, hex.x * 4, '\\__/')
+                        else:
+                            viewport.addstr(hex.y * 2 + 2, hex.x * 4 + 1, f'  \\')
+                            viewport.addstr(hex.y * 2 + 3, hex.x * 4 + 1, '__/')
+                '''
+            else:
+                if (hex.x, hex.y - 1) not in world:
+                    viewport.addstr(hex.y * 2 + 0, hex.x * 3 + 1, '__')
+                    viewport.addstr(hex.y * 2 + 1, hex.x * 3, f'/  \\')
+                    viewport.addstr(hex.y * 3 + 2, hex.x * 3, '\\__/')
+                else:
+                    #viewport.addstr(hex.y * 3 + 0, hex.x * 3 + 1, '__')
+                    viewport.addstr(hex.y * 2 + 1, hex.x * 3, f'/  \\')
+                    viewport.addstr(hex.y * 2 + 2, hex.x * 3, '\\__/')
+
+                '''
+                if (hex.x, hex.y - 1) not in world:
+                    if (hex.x - 1, hex.y) not in world:
+                        viewport.addstr(hex.y * 3 + 0, hex.x * 4, ' __ ')
+                        viewport.addstr(hex.y * 3 + 1, hex.x * 4, f'/  \\')
+                        viewport.addstr(hex.y * 3 + 2, hex.x * 4, '\\__/')
+                    else:
+                        viewport.addstr(hex.y * 3 + 0, hex.x * 3 - 0, ' __ ')
+                        viewport.addstr(hex.y * 3 + 1, hex.x * 3 - 0, f'/  \\')
+                        viewport.addstr(hex.y * 3 + 2, hex.x * 3 + 1, '__/')
+                else:
+                    viewport.addstr(hex.y * 3 + 1, hex.x * 3 + 1, '__ ')
+                    viewport.addstr(hex.y * 3 + 0, hex.x * 3 + 1, f'  \\')
+
+                    if (hex.x - 1, hex.y + 1) not in world:
+                        viewport.addstr(hex.y * 3 + 3, hex.x * 3 + 0, '\\__/')
+                    else:
+                        viewport.addstr(hex.y * 3 + 3, hex.x * 3 + 1, '__/')
+                '''
+
         viewport.refresh( 0,0, 1,0, height - 1, width - 1)
 
         while True:
