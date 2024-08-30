@@ -270,26 +270,6 @@ def view_map(world: Map):
                     viewport.addstr(hex.y * 2 + 1, hex.x * 3, f'/  \\')
                     viewport.addstr(hex.y * 2 + 2, hex.x * 3, '\\__/')
 
-                '''
-                if (hex.x, hex.y - 1) not in world:
-                    if (hex.x - 1, hex.y) not in world:
-                        viewport.addstr(hex.y * 3 + 0, hex.x * 4, ' __ ')
-                        viewport.addstr(hex.y * 3 + 1, hex.x * 4, f'/  \\')
-                        viewport.addstr(hex.y * 3 + 2, hex.x * 4, '\\__/')
-                    else:
-                        viewport.addstr(hex.y * 3 + 0, hex.x * 3 - 0, ' __ ')
-                        viewport.addstr(hex.y * 3 + 1, hex.x * 3 - 0, f'/  \\')
-                        viewport.addstr(hex.y * 3 + 2, hex.x * 3 + 1, '__/')
-                else:
-                    viewport.addstr(hex.y * 3 + 1, hex.x * 3 + 1, '__ ')
-                    viewport.addstr(hex.y * 3 + 0, hex.x * 3 + 1, f'  \\')
-
-                    if (hex.x - 1, hex.y + 1) not in world:
-                        viewport.addstr(hex.y * 3 + 3, hex.x * 3 + 0, '\\__/')
-                    else:
-                        viewport.addstr(hex.y * 3 + 3, hex.x * 3 + 1, '__/')
-                '''
-
         viewport.refresh( 0,0, 1,0, height - 1, width - 1)
 
         while True:

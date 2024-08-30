@@ -28,6 +28,7 @@ The project is being worked on and is focused on recreating antiyoy's core.
 
 - [ ] World
   - [x] Map
+  - [ ] Random map generation
   - [x] Hexagons
   - [ ] Units
 
