@@ -51,7 +51,7 @@ class RandomMap(Map):
 
         hexes = []
 
-        noise = perlin.PerlinNoiseFactory(2, tile=(0, 0), unbias=True, octaves=6)
+        noise = perlin.PerlinNoiseFactory(2, tile=(25600, 256), unbias=True, octaves=6)
 
         for x in range(width):
             for y in range(height):
