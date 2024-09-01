@@ -6,6 +6,22 @@ class Unit:
         self.hex = hex
 
 
+class Tree(Unit):
+    """
+    A tree.
+    """
+    def __init__(self, hex = None):
+        super().__init__(hex)
+
+
+class Grave(Unit):
+    """
+    A grave that turns into a tree on the next turn.
+    """
+    def __init__(self, hex = None):
+        super().__init__(hex)
+
+
 class Capital(Unit):
     """
     The capital of a player (this annoying golden castle)
@@ -51,7 +67,7 @@ class Tower(Unit):
     A tower.
     """
     def __init__(self, hex = None):
-        super().__init__(hex, None)
+        super().__init__(hex)
 
 
 class UpgradedTower(Tower):

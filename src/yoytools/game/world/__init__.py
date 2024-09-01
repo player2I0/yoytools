@@ -2,6 +2,7 @@ from yoytools import perlin
 import random
 import curses
 import time
+import types
 
 from yoytools.game.world import units
 
@@ -112,29 +113,54 @@ def view_map(world: Map):
 
         stdscr.addstr('Map viewer. WASD to navigate, q to exit')
 
+        curses.init_pair(1, curses.COLOR_WHITE, curses.COLOR_WHITE)
+        curses.init_pair(2, curses.COLOR_WHITE, curses.COLOR_YELLOW)
+        curses.init_pair(3, curses.COLOR_WHITE, curses.COLOR_RED)
+        curses.init_pair(4, curses.COLOR_RED, curses.COLOR_BLACK)
+
+        unit_emojis = {types.NoneType: ['  ', 0], units.Peasant: ['🧍', 0], units.Squire: ['🧍', 1], units.Warrior: ['🧍', 2], units.Knight: ['🧍', 3], units.Tree: ['🌴', 0], units.Grave: ['💀', 0], units.Tower: ['♜ ', 0], units.UpgradedTower: ['♜ ', 4]}
+
         for hex_coords in world.hexes:
-            hex = world.hexes[hex_coords]
+            hex: Hex = world.hexes[hex_coords]
 
             if hex.x % 2 == 0:
                 if (hex.x, hex.y - 1) not in world:
                     viewport.addstr(hex.y * 2 + 1, hex.x * 3 + 1, '__')
-                    viewport.addstr(hex.y * 2 + 2, hex.x * 3, f'/  \\')
+                    #viewport.addstr(hex.y * 2 + 2, hex.x * 3, f'/{unit_emojis[type(hex.unit)][0]}\\', curses.color_pair(unit_emojis[type(hex.unit)][1]))
+                    viewport.addstr(hex.y * 2 + 2, hex.x * 3, '/')
+                    viewport.addstr(hex.y * 2 + 2, hex.x * 3 + 1, unit_emojis[type(hex.unit)][0], curses.color_pair(unit_emojis[type(hex.unit)][1]))
+                    viewport.addstr(hex.y * 2 + 2, hex.x * 3 + 3, '\\')
                     viewport.addstr(hex.y * 2 + 3, hex.x * 3, '\\__/')
                 else:
-                    viewport.addstr(hex.y * 2 + 2, hex.x * 3, f'/  \\')
+                    #viewport.addstr(hex.y * 2 + 2, hex.x * 3, f'/{unit_emojis[type(hex.unit)][0]}\\')
+                    viewport.addstr(hex.y * 2 + 2, hex.x * 3, '/')
+                    viewport.addstr(hex.y * 2 + 2, hex.x * 3 + 1, unit_emojis[type(hex.unit)][0], curses.color_pair(unit_emojis[type(hex.unit)][1]))
+                    viewport.addstr(hex.y * 2 + 2, hex.x * 3 + 3, '\\')
                     viewport.addstr(hex.y * 2 + 3, hex.x * 3, '\\__/')
             else:
                 if (hex.x, hex.y - 1) not in world:
                     viewport.addstr(hex.y * 2 + 0, hex.x * 3 + 1, '__')
-                    viewport.addstr(hex.y * 2 + 1, hex.x * 3, f'/  \\')
+                    #viewport.addstr(hex.y * 2 + 1, hex.x * 3, f'/{unit_emojis[type(hex.unit)][0]}\\')
+
+                    viewport.addstr(hex.y * 2 + 1, hex.x * 3, '/')
+                    viewport.addstr(hex.y * 2 + 1, hex.x * 3 + 1, unit_emojis[type(hex.unit)][0], curses.color_pair(unit_emojis[type(hex.unit)][1]))
+                    viewport.addstr(hex.y * 2 + 1, hex.x * 3 + 3, '\\')
+
                     viewport.addstr(hex.y * 3 + 2, hex.x * 3, '\\__/')
                 else:
-                    viewport.addstr(hex.y * 2 + 1, hex.x * 3, f'/  \\')
+                    viewport.addstr(hex.y * 2 + 1, hex.x * 3, '/')
+                    viewport.addstr(hex.y * 2 + 1, hex.x * 3 + 1, unit_emojis[type(hex.unit)][0], curses.color_pair(unit_emojis[type(hex.unit)][1]))
+                    viewport.addstr(hex.y * 2 + 1, hex.x * 3 + 3, '\\')
+
+                    #viewport.addstr(hex.y * 2 + 1, hex.x * 3, f'/{unit_emojis[type(hex.unit)][0]}\\')
                     viewport.addstr(hex.y * 2 + 2, hex.x * 3, '\\__/')
 
         viewport.refresh( 0,0, 1,0, height - 1, width - 1)
 
         while True:
+            height, width = stdscr.getmaxyx()
+            v_height, v_width = viewport.getmaxyx()
+
             key = stdscr.getch()
             
             if key == 115 and viewport_offset[0] < v_height - 1:
