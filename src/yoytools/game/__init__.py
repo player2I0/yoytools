@@ -1,3 +1,4 @@
+import yoytools
 import yoytools.game.world as world
 
 class Game:
@@ -16,3 +17,8 @@ class Game:
 
         self.map = map
         self.players = players
+
+
+class Player:
+    def __init__(self, name = None, color: yoytools.Color = None):
+        pass
