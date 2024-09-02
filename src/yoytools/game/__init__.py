@@ -15,10 +15,40 @@ class Game:
             Game map.
         """
 
-        self.map = map
-        self.players = players
+        self.map = map #game map
+        self.players: list = [] #game players
+        self.started = False #is game started
+        self.turning_player = None #player currently 'turning' (moving his units; e. g. 'playing')
+
+        for player in players:
+            self.players.append(player)
+            player.game = self
+
+    def start(self):
+        self.started = True
+
+    def turn(self):
+        if self.players.index(self.turning_player) >= len(self.players) - 1:
+            self.turning_player = self.players[0]
+        else:
+            self.turning_player = self.players[self.players.index(self.turning_player) + 1]
 
 
 class Player:
-    def __init__(self, name = None, color: yoytools.Color = None):
-        pass
+    """A class describing player, containing *isolated* code which is immune to undesirable modifying the game."""
+
+    def __init__(self, name = 'player', color: int = 0):
+        self.name = name
+        self.color = color
+        self.game: Game = None
+
+    def can_turn(self):
+        return (self.game.started and self.game.turning_player is self)
+    
+    def end_turn(self):
+        if self.can_turn():
+            self.game.turn()
+
+    def move_unit(self):
+        if self.can_turn():
+            pass
