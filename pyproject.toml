@@ -1,12 +1,12 @@
 [build-system]
-requires = ["hatchling"]
+requires = ["hatchling", "hatch-requirements-txt"]
 build-backend = "hatchling.build"
 
 [project]
 name = "yoytools"
-version = "1.0"
+version = "2.4"
 authors = [
-  { name="player210", email="notyourdamn@business.com" },
+  { name = "player210", email = "notyourdamn@business.com" },
 ]
 description = "yoytools"
 readme = "README.md"
@@ -20,3 +20,10 @@ classifiers = [
 [project.urls]
 Homepage = "https://github.com/player2I0/yoytools"
 Issues = "https://github.com/player2I0/yoytools/issues"
+
+[tool.hatch.metadata.hooks.requirements_txt]
+files = ["requirements.txt"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/yoyrogue", "src/yoytools"]
+
