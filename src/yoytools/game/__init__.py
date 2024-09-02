@@ -1,5 +1,6 @@
 import yoytools
 import yoytools.game.world as world
+from yoytools.game.world import units
 
 class Game:
     """A class for describing a game. That's where everything happens."""
@@ -49,6 +50,7 @@ class Player:
         if self.can_turn():
             self.game.turn()
 
-    def move_unit(self):
+    def move_unit(self, unit: units.MovableUnit, hex: world.Hex):
         if self.can_turn():
-            pass
+            if unit.movable and unit.can_move(hex):
+                pass

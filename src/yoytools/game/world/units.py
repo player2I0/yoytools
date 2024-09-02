@@ -6,7 +6,30 @@ class Unit:
         self.hex = hex
 
 
-class Tree(Unit):
+class MovableUnit(Unit):
+    """
+    Base class for describing a movable game unit.
+    """
+    def __init__(self, hex = None):
+        super().__init__(hex)
+
+        self.movable = True
+
+    def can_move(self, hex):
+        return True
+
+
+class ImmovableUnit(Unit):
+    """
+    Base class for describing an immovable game unit.
+    """
+    def __init__(self, hex = None):
+        super().__init__(hex)
+
+        self.movable = False
+
+
+class Tree(ImmovableUnit):
     """
     A tree.
     """
@@ -14,7 +37,7 @@ class Tree(Unit):
         super().__init__(hex)
 
 
-class Grave(Unit):
+class Grave(ImmovableUnit):
     """
     A grave that turns into a tree on the next turn.
     """
@@ -22,7 +45,7 @@ class Grave(Unit):
         super().__init__(hex)
 
 
-class Capital(Unit):
+class Capital(ImmovableUnit):
     """
     The capital of a player (this annoying golden castle)
     """
@@ -30,12 +53,15 @@ class Capital(Unit):
         super().__init__(hex)
 
 
-class Peasant(Unit):
+class Peasant(MovableUnit):
     """
     A human
     """
     def __init__(self, hex = None):
         super().__init__(hex)
+
+    def can_move(self, hex):
+        pass
 
 
 class Warrior(Peasant):
@@ -62,7 +88,7 @@ class Knight(Peasant):
         super().__init__(hex)
 
 
-class Tower(Unit):
+class Tower(ImmovableUnit):
     """
     A tower.
     """

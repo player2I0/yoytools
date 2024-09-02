@@ -24,6 +24,7 @@ class Map:
                 self[cords] = Hex(*cords, self, data[hex_cords])
         elif type(data) is list:
             for hex in data:
+                hex.map = self
                 self[(hex.x, hex.y)] = hex
 
     def __setitem__(self, key, value):
