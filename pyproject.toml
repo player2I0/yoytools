@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "yoytools"
-version = "2.4"
+version = "2.8"
 authors = [
   { name = "player210", email = "notyourdamn@business.com" },
 ]
@@ -16,6 +16,7 @@ classifiers = [
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
 ]
+dynamic = ["dependencies"]
 
 [project.urls]
 Homepage = "https://github.com/player2I0/yoytools"
@@ -26,4 +27,3 @@ files = ["requirements.txt"]
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/yoyrogue", "src/yoytools"]
-
