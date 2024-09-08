@@ -1,9 +1,11 @@
+from yoytools.game.world import units
+
 class Hex:
     """
     ⬡
     """
 
-    def __init__(self, x, y, map, data=None, owner = None, unit = None):
+    def __init__(self, x, y, map = None, data=None, owner = None, unit = None):
         self.x = x
         self.y = y
         self.map = map
@@ -27,6 +29,17 @@ class Hex:
         self.unit = unit
         unit.hex = self
 
+    def get_neighbours(self):
+        collection = HexCollection.from_existing_coordinates([
+                                  (self.x, self.y - 1),
+                (self.x - 1, self.y),               (self.x + 1, self.y),
+
+            (self.x - 1, self.y + 1),               (self.x + 1, self.y + 1),
+                                  (self.x, self.y + 1)
+        ], self.map)
+
+        return collection
+
     def load(self, data):
         pass
 
@@ -36,3 +49,29 @@ class HexOwner:
         self.color = color
         self.hex = hex
         self.player = player
+
+
+class HexCollection:
+    def __init__(self):
+        self.hexes = []
+
+    def add(self, hex):
+        self.hexes.append(hex)
+
+    def __str__(self):
+        s = ''
+
+        for hex in self.hexes:
+            s += f'({hex.x}, {hex.y}) '
+
+        return s
+
+    @staticmethod
+    def from_existing_coordinates(l, map):
+        collection = HexCollection()
+
+        for coordinate in l:
+            if coordinate in map:
+                collection.add(map[coordinate])
+
+        return collection

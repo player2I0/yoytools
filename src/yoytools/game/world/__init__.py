@@ -25,7 +25,8 @@ class Map:
                 self[cords] = Hex(*cords, self, data[hex_cords])
         elif type(data) is list:
             for hex in data:
-                hex.map = self
+                if hex.map is None:
+                    hex.map = self
                 self[(hex.x, hex.y)] = hex
 
     def __setitem__(self, key, value):
@@ -105,7 +106,7 @@ def view_map(world: Map):
         for hex_coords in world.hexes:
             hex: Hex = world.hexes[hex_coords]
 
-            if hex.x % 2 == 0:
+            if hex.x % 2 != 0:
                 if (hex.x, hex.y - 1) not in world:
                     viewport.addstr(hex.y * 2 + 1, hex.x * 3 + 1, '__')
                     #viewport.addstr(hex.y * 2 + 2, hex.x * 3, f'/{unit_emojis[type(hex.unit)][0]}\\', curses.color_pair(unit_emojis[type(hex.unit)][1]))
