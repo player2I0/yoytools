@@ -80,7 +80,13 @@ class Hex:
         self.y = y
         self.map = map
 
-        self.owner = owner
+        self.owner: Hex = owner
+
+        if owner is None:
+            self.owner = HexOwner(hex=self)
+        else:
+            owner.hex = self
+
         self.unit = unit
 
         if unit is not None:
@@ -95,6 +101,13 @@ class Hex:
 
     def load(self, data):
         pass
+
+
+class HexOwner:
+    def __init__(self, hex = None, color = -1, player = None):
+        self.color = color
+        self.hex = hex
+        self.player = player
 
 
 def view_map(world: Map):
@@ -114,12 +127,19 @@ def view_map(world: Map):
 
         stdscr.addstr('Map viewer. WASD to navigate, q to exit')
 
-        curses.init_pair(1, curses.COLOR_WHITE, curses.COLOR_WHITE)
-        curses.init_pair(2, curses.COLOR_WHITE, curses.COLOR_YELLOW)
-        curses.init_pair(3, curses.COLOR_WHITE, curses.COLOR_RED)
-        curses.init_pair(4, curses.COLOR_RED, curses.COLOR_BLACK)
+        # hex colors:
+        # 0 = red, 1 = yellow, 2 = blue, 3 = green, 4 = magenta, 5 = cyan, -1 = white (empty hex)
 
-        unit_emojis = {types.NoneType: ['  ', 0], units.Peasant: ['🧍', 0], units.Squire: ['🧍', 1], units.Warrior: ['🧍', 2], units.Knight: ['🧍', 3], units.Tree: ['🌴', 0], units.Grave: ['💀', 0], units.Tower: ['♜ ', 0], units.UpgradedTower: ['♜ ', 4]}
+        curses.init_pair(1, curses.COLOR_WHITE, curses.COLOR_BLACK)
+        curses.init_pair(2, curses.COLOR_WHITE, curses.COLOR_RED)
+        curses.init_pair(3, curses.COLOR_WHITE, curses.COLOR_YELLOW)
+        curses.init_pair(4, curses.COLOR_WHITE, curses.COLOR_BLUE)
+        curses.init_pair(5, curses.COLOR_WHITE, curses.COLOR_GREEN)
+        curses.init_pair(6, curses.COLOR_WHITE, curses.COLOR_MAGENTA)
+        curses.init_pair(7, curses.COLOR_WHITE, curses.COLOR_CYAN)
+
+        #unit_emojis = {types.NoneType: ['  ', 0], units.Peasant: ['🧍', 0], units.Squire: ['🧍', 1], units.Warrior: ['🧍', 2], units.Knight: ['🧍', 3], units.Tree: ['🌴', 0], units.Grave: ['💀', 0], units.Tower: ['♜ ', 0], units.UpgradedTower: ['♜ ', 4]}
+        unit_emojis = {types.NoneType: ['  ', '  '], units.Peasant: ['🧍', '0_'], units.Squire: ['🧍', '1_'], units.Warrior: ['🧍', '2_'], units.Knight: ['🧍', '3_'], units.Tree: ['🌴', '__'], units.Grave: ['💀', '__'], units.Tower: ['♜ ', '0_'], units.UpgradedTower: ['♜ ', '1_']}
 
         for hex_coords in world.hexes:
             hex: Hex = world.hexes[hex_coords]
@@ -129,32 +149,44 @@ def view_map(world: Map):
                     viewport.addstr(hex.y * 2 + 1, hex.x * 3 + 1, '__')
                     #viewport.addstr(hex.y * 2 + 2, hex.x * 3, f'/{unit_emojis[type(hex.unit)][0]}\\', curses.color_pair(unit_emojis[type(hex.unit)][1]))
                     viewport.addstr(hex.y * 2 + 2, hex.x * 3, '/')
-                    viewport.addstr(hex.y * 2 + 2, hex.x * 3 + 1, unit_emojis[type(hex.unit)][0], curses.color_pair(unit_emojis[type(hex.unit)][1]))
+                    viewport.addstr(hex.y * 2 + 2, hex.x * 3 + 1, unit_emojis[type(hex.unit)][0], curses.color_pair(1 + hex.owner.color + 1))
                     viewport.addstr(hex.y * 2 + 2, hex.x * 3 + 3, '\\')
-                    viewport.addstr(hex.y * 2 + 3, hex.x * 3, '\\__/')
+                    #viewport.addstr(hex.y * 2 + 3, hex.x * 3, '\\__/')
+                    viewport.addstr(hex.y * 2 + 3, hex.x * 3, '\\')
+                    viewport.addstr(hex.y * 2 + 3, hex.x * 3 + 1, unit_emojis[type(hex.unit)][1], curses.A_UNDERLINE)
+                    viewport.addstr(hex.y * 2 + 3, hex.x * 3 + 3, '/')
                 else:
                     #viewport.addstr(hex.y * 2 + 2, hex.x * 3, f'/{unit_emojis[type(hex.unit)][0]}\\')
                     viewport.addstr(hex.y * 2 + 2, hex.x * 3, '/')
-                    viewport.addstr(hex.y * 2 + 2, hex.x * 3 + 1, unit_emojis[type(hex.unit)][0], curses.color_pair(unit_emojis[type(hex.unit)][1]))
+                    viewport.addstr(hex.y * 2 + 2, hex.x * 3 + 1, unit_emojis[type(hex.unit)][0], curses.color_pair(1 + hex.owner.color + 1))
                     viewport.addstr(hex.y * 2 + 2, hex.x * 3 + 3, '\\')
-                    viewport.addstr(hex.y * 2 + 3, hex.x * 3, '\\__/')
+                    viewport.addstr(hex.y * 2 + 3, hex.x * 3, '\\')
+                    viewport.addstr(hex.y * 2 + 3, hex.x * 3 + 1, unit_emojis[type(hex.unit)][1], curses.A_UNDERLINE)
+                    viewport.addstr(hex.y * 2 + 3, hex.x * 3 + 3, '/')
+                    #viewport.addstr(hex.y * 2 + 3, hex.x * 3, '\\__/')
             else:
                 if (hex.x, hex.y - 1) not in world:
                     viewport.addstr(hex.y * 2 + 0, hex.x * 3 + 1, '__')
                     #viewport.addstr(hex.y * 2 + 1, hex.x * 3, f'/{unit_emojis[type(hex.unit)][0]}\\')
 
                     viewport.addstr(hex.y * 2 + 1, hex.x * 3, '/')
-                    viewport.addstr(hex.y * 2 + 1, hex.x * 3 + 1, unit_emojis[type(hex.unit)][0], curses.color_pair(unit_emojis[type(hex.unit)][1]))
+                    viewport.addstr(hex.y * 2 + 1, hex.x * 3 + 1, unit_emojis[type(hex.unit)][0], curses.color_pair(1 + hex.owner.color + 1))
                     viewport.addstr(hex.y * 2 + 1, hex.x * 3 + 3, '\\')
 
-                    viewport.addstr(hex.y * 3 + 2, hex.x * 3, '\\__/')
+                    #viewport.addstr(hex.y * 3 + 2, hex.x * 3, '\\__/')
+                    viewport.addstr(hex.y * 2 + 2, hex.x * 3, '\\')
+                    viewport.addstr(hex.y * 2 + 2, hex.x * 3 + 1, unit_emojis[type(hex.unit)][1], curses.A_UNDERLINE)
+                    viewport.addstr(hex.y * 2 + 2, hex.x * 3 + 3, '/')
                 else:
                     viewport.addstr(hex.y * 2 + 1, hex.x * 3, '/')
-                    viewport.addstr(hex.y * 2 + 1, hex.x * 3 + 1, unit_emojis[type(hex.unit)][0], curses.color_pair(unit_emojis[type(hex.unit)][1]))
+                    viewport.addstr(hex.y * 2 + 1, hex.x * 3 + 1, unit_emojis[type(hex.unit)][0], curses.color_pair(1 + hex.owner.color + 1))
                     viewport.addstr(hex.y * 2 + 1, hex.x * 3 + 3, '\\')
 
                     #viewport.addstr(hex.y * 2 + 1, hex.x * 3, f'/{unit_emojis[type(hex.unit)][0]}\\')
-                    viewport.addstr(hex.y * 2 + 2, hex.x * 3, '\\__/')
+                    #viewport.addstr(hex.y * 2 + 2, hex.x * 3, '\\__/')
+                    viewport.addstr(hex.y * 2 + 2, hex.x * 3, '\\')
+                    viewport.addstr(hex.y * 2 + 2, hex.x * 3 + 1, unit_emojis[type(hex.unit)][1], curses.A_UNDERLINE)
+                    viewport.addstr(hex.y * 2 + 2, hex.x * 3 + 3, '/')
 
         viewport.refresh( 0,0, 1,0, height - 1, width - 1)
 
