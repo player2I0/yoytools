@@ -1,8 +1,8 @@
 # 🧍 yoytools
 
-## Purpose
+## What is this?
 
-This is an implementation of [yiotro's antiyoy](https://github.com/yiotro/Antiyoy), which focuses not on providing a *playable game*, but being a merely *implementation* of the game, containing its logic and all the building blocks to it.
+This repo implements [yiotro's antiyoy](https://github.com/yiotro/Antiyoy) in python.
 
 ## Basic usage
 
