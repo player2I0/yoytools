@@ -1,9 +1,11 @@
+from yoytools.game.world.hex import Hex
+
 class Unit:
     """
     Base class for describing a game unit
     """
     def __init__(self, hex = None):
-        self.hex = hex
+        self.hex: Hex = hex
 
 
 class MovableUnit(Unit):
@@ -14,6 +16,7 @@ class MovableUnit(Unit):
         super().__init__(hex)
 
         self.movable = True
+        self.last_moved = -1
 
     def can_move(self, hex):
         return True

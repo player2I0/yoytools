@@ -20,6 +20,7 @@ class Game:
         self.players: list = [] #game players
         self.started = False #is game started
         self.turning_player = None #player currently 'turning' (moving his units; e. g. 'playing')
+        self.turns = -1
 
         for player in players:
             self.players.append(player)
@@ -52,5 +53,6 @@ class Player:
 
     def move_unit(self, unit: units.MovableUnit, hex: world.Hex):
         if self.can_turn():
-            if unit.movable and unit.can_move(hex):
-                pass
+            if unit.movable and unit.can_move(hex) and unit.last_moved != self.game.turns:
+                self.game.map.move_unit(unit, hex)
+                unit.last_moved = self.game.turns

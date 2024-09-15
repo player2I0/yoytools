@@ -29,6 +29,10 @@ class Map:
                     hex.map = self
                 self[(hex.x, hex.y)] = hex
 
+    def move_unit(self, unit: units.MovableUnit, hex: Hex):
+        unit.hex.unit = None
+        hex.set_unit(unit)
+
     def __setitem__(self, key, value):
         self.hexes[key] = value
 
