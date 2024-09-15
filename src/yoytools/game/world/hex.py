@@ -75,3 +75,9 @@ class HexCollection:
                 collection.add(map[coordinate])
 
         return collection
+    
+    def __contains__(self, item):
+        return item in self.hexes
+    
+    def __getitem__(self, key):
+        return self.hexes[key]

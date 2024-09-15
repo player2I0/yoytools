@@ -103,6 +103,7 @@ def view_map(world: Map):
         #unit_emojis = {types.NoneType: ['  ', 0], units.Peasant: ['🧍', 0], units.Squire: ['🧍', 1], units.Warrior: ['🧍', 2], units.Knight: ['🧍', 3], units.Tree: ['🌴', 0], units.Grave: ['💀', 0], units.Tower: ['♜ ', 0], units.UpgradedTower: ['♜ ', 4]}
         unit_emojis = {types.NoneType: ['  ', '  '], units.Peasant: ['🧍', '0_'], units.Squire: ['🧍', '1_'], units.Warrior: ['🧍', '2_'], units.Knight: ['🧍', '3_'], units.Tree: ['🌴', '__'], units.Grave: ['💀', '__'], units.Tower: ['♜ ', '0_'], units.UpgradedTower: ['♜ ', '1_']}
 
+        '''
         for hex_coords in world.hexes:
             hex: Hex = world.hexes[hex_coords]
 
@@ -149,6 +150,9 @@ def view_map(world: Map):
                     viewport.addstr(hex.y * 2 + 2, hex.x * 3, '\\')
                     viewport.addstr(hex.y * 2 + 2, hex.x * 3 + 1, unit_emojis[type(hex.unit)][1], curses.A_UNDERLINE)
                     viewport.addstr(hex.y * 2 + 2, hex.x * 3 + 3, '/')
+        '''
+
+        
 
         viewport.refresh( 0,0, 1,0, height - 1, width - 1)
 
