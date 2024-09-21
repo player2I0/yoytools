@@ -24,13 +24,13 @@ The project is being worked on and is focused on recreating antiyoy's core.
 - [ ] Game
   - [ ] Adding players to the game
   - [ ] Starting the game
-  - [ ] Turns
+  - [ ] Turns (partially - implemented base functions for handling turns)
 
 - [ ] World
   - [x] Map
   - [ ] Random map generation
   - [x] Hexagons
-  - [ ] Units
+  - [ ] Units (partially - implemented basic classes, but not functionality)
 
 - [ ] Emulator
   - [x] Basic map viewer
