@@ -18,7 +18,7 @@ class MovableUnit(Unit):
         self.movable = True
         self.last_moved = -1
 
-    def can_move(self, hex):
+    def can_move(self, hex: Hex):
         return True
 
 
@@ -64,7 +64,8 @@ class Peasant(MovableUnit):
         super().__init__(hex)
 
     def can_move(self, hex):
-        pass
+        if hex.owner == self.owner:
+            return True
 
 
 class Warrior(Peasant):

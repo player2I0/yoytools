@@ -22,15 +22,21 @@ class Game:
         self.turning_player = None #player currently 'turning' (moving his units; e. g. 'playing')
         self.turns = -1
 
+        #self.on_game_start = lambda *_, **__: None
+
         for player in players:
             self.players.append(player)
             player.game = self
 
     def start(self):
+        #self.on_game_start()
+
         self.started = True
+        self.turn()
 
     def turn(self):
-        if self.players.index(self.turning_player) >= len(self.players) - 1:
+        self.turns += 1
+        if self.players.index(self.turning_player) >= len(self.players) - 1 or self.turning_player is None:
             self.turning_player = self.players[0]
         else:
             self.turning_player = self.players[self.players.index(self.turning_player) + 1]

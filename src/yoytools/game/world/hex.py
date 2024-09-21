@@ -10,7 +10,7 @@ class Hex:
         self.y = y
         self.map = map
 
-        self.owner: Hex = owner
+        self.owner: HexOwner = owner
 
         if owner is None:
             self.owner = HexOwner(hex=self)
@@ -49,6 +49,9 @@ class HexOwner:
         self.color = color
         self.hex = hex
         self.player = player
+
+    def __eq__(self, other):
+        return self.color == other.color
 
 
 class HexCollection:
